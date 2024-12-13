@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import multer from "multer";
 import { v2 as cloudinary } from 'cloudinary';
 import path from "path";
+import cors from "cors";
 
 
 dotenv.config();
@@ -16,7 +17,7 @@ const uri = process.env.URI;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cors());
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME, 
