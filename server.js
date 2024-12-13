@@ -6,8 +6,7 @@ import bodyParser from "body-parser";
 import multer from "multer";
 import { v2 as cloudinary } from 'cloudinary';
 import path from "path";
-import cors from "cors";
-
+const cors = require("cors")
 
 dotenv.config();
 
