@@ -17,7 +17,12 @@ const uri = process.env.URI;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow only this origin
+    methods: ['GET', 'POST'], // Allow specific methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allow specific headers
+  }));
+  
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME, 
