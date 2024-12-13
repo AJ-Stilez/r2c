@@ -6,7 +6,8 @@ import bodyParser from "body-parser";
 import multer from "multer";
 import { v2 as cloudinary } from 'cloudinary';
 import path from "path";
-const cors = require("cors")
+import cors from "cors";
+
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ const uri = process.env.URI;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow only this origin
+    origin: '*', // Allow only this origin
     methods: ['GET', 'POST'], // Allow specific methods
     allowedHeaders: ['Content-Type', 'Authorization'] // Allow specific headers
   }));
