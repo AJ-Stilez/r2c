@@ -107,6 +107,24 @@ app.post("/checkCred", upload.none(), async (req, res) => {
     }
 })
 
+app.post("/upload", upload.single("logo"), async (req, res) => {
+    try{
+        const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
+              
+            if(error) res.json(error.message);
+    
+            console.log({
+                message: 'File uploaded successfully!',
+                file: req.file,  // Cloudinary file details
+              });
+        });
+        console.log(logoObject);
+    }
+    catch(error){
+        res.status(400).json({error: error})
+    }
+})
+
 app.post("/signUp", upload.single("logo"), async (req, res) => {
     try{
         // const username = "Test2";
