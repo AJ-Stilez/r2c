@@ -54,15 +54,15 @@ const mySchema = new mongoose.Schema({
 
 const MyModel = mongoose.model("tvc_database", mySchema);
 
-const storage = multer.diskStorage({
-    // destination: (req, file, cb) => {
-    //     cb(null, 'uploads/'); // specify upload folder
-    //   },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname));
-    }
-  });
-   
+// const storage = multer.diskStorage({
+//     // destination: (req, file, cb) => {
+//     //     cb(null, 'uploads/'); // specify upload folder
+//     //   },
+//     filename: (req, file, cb) => {
+//       cb(null, Date.now() + path.extname(file.originalname));
+//     }
+//   });
+const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 app.get("/", (req, res) => {
@@ -73,13 +73,15 @@ app.get("/checkCred", (req, res) => {
     res.send("Hey baby!!..");
 })
 
-app.post("/checkCred", async (req, res) => {
+app.post("/checkCred", upload.none(), async (req, res) => {
     try{
         // console.log("Working");
-        const {username, email } = req.body;
+        console.log(req.body);
+        const { username, email } = req.body;
         // const username = "AJSti]ez";
         // const email =  "adenusijoseph0@gmail.com";
         console.log(username);
+        console.log(email);
         if (!username || !email) {
             return res.status(400).json({
                 error: "Both username and email are required",
@@ -119,6 +121,7 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
         // const title = ["He", "She", "They"];
         // const qualification = "Professional";
         const saltRounds = 10;
+        console.log(req.body);
         const { username, email, password, company, industry, size, introduction, hiring, title, qualification } = req.body;
 
         const checkEmail = await MyModel.findOne({
