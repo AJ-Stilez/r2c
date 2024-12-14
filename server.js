@@ -82,12 +82,9 @@ app.get("/checkCred", (req, res) => {
 
 app.post("/checkCred", upload.none(), async (req, res) => {
     try{
-        console.log(req.body);
         const { username, email } = req.body;
-        // console.log(username);
-        // console.log(email);
+
         if (!username || !email) {
-            console.log("this", username, email)
             return res.status(400).json({
                 error: "Both username and email are required",
             });
@@ -125,7 +122,6 @@ app.post("/upload", upload.single("logo"), async (req, res) => {
                 file: req.file,  // Cloudinary file details
               });
         });
-        console.log(logoObject);
     }
     catch(error){
         res.status(400).json({error: error})
@@ -145,7 +141,6 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
         // const title = ["He", "She", "They"];
         // const qualification = "Professional";
         const saltRounds = 10;
-        console.log(req.body);
         const { username, email, password, company, industry, size, introduction, hiring, title, qualification } = req.body;
 
         const checkEmail = await MyModel.findOne({
@@ -168,18 +163,10 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
             const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
               
                 if(error) res.json(error.message);
-    
-                console.log({
-                    message: 'File uploaded successfully!',
-                    file: req.file,  // Cloudinary file details
-                  });
             });
             console.log(logoObject);
     
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
-            console.log(hashedPassword);
-    
+            const hashedPassword = await bcrypt.hash(password, saltRounds);    
             const response = await MyModel.create({
                 username: username,
                 email: email,
@@ -210,7 +197,7 @@ app.post("/signIn", upload.single("none"), async (req, res) => {
         const checkUser = await MyModel.findOne({
             email: email,
         });
-        console.log(email);
+
         if(!checkUser){
             throw new Error("User not found, please kindly sign up");
         }
