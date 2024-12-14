@@ -77,11 +77,15 @@ app.post("/checkCred", async (req, res) => {
     try{
         // console.log("Working");
         const {username, email } = req.body;
-        // const username = "AJStilez";
-        // const email =  "adenusijeph0@gmail.com";
-        // console.log(username);
+        // const username = "AJSti]ez";
+        // const email =  "adenusijoseph0@gmail.com";
+        console.log(username);
+        if (!username || !email) {
+            return res.status(400).json({
+                error: "Both username and email are required",
+            });
+        }
 
-        if(username && email){
             const checkUsername = await MyModel.findOne({
                 username: username,
             });
@@ -90,19 +94,12 @@ app.post("/checkCred", async (req, res) => {
             });
             
             if(checkUsername){
-                res.status(400).json({
-                    error: "Username is taken",
-                });
+                throw new Error("Username is taken");
             }
             else if(checkEmail){
-                res.status(400).json({
-                    error: "Email has been used",
-                })
+                throw new Error("Email has been used");
             }
-            else{
                 res.status(200).json({message: "Success"});
-            }
-        }
     }
     catch(error){
         res.status(400).json({error: error.message});
