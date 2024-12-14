@@ -99,6 +99,7 @@ app.post("/checkCred", upload.none(), async (req, res) => {
             else if(checkEmail){
                 throw new Error("Email has been used");
             }
+            console.log("Working fine");
                 res.status(200).json({message: "Success"});
     }
     catch(error){
