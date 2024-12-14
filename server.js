@@ -54,14 +54,15 @@ const mySchema = new mongoose.Schema({
 
 const MyModel = mongoose.model("tvc_database", mySchema);
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // specify upload folder
-      },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname));
-    }
-  });
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/'); // specify upload folder
+//       },
+//     filename: (req, file, cb) => {
+//       cb(null, Date.now() + path.extname(file.originalname));
+//     }
+//   });
+const storage = multer.memoryStorage();
    
 const upload = multer({storage: storage});
 
@@ -101,7 +102,10 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
                 return res.status(400).json({ error: 'No file uploaded.' });
               }
     
-            const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
+            const logoObject = await cloudinary.uploader.upload_stream({
+                resource_type: "auto",
+            }, 
+            (error, result) => {
               
                 if(error) res.status(400).json(error.message);
     
