@@ -14,9 +14,16 @@ const app = express();
 const port = process.env.PORT || 5353;
 const uri = process.env.URI;
 
+const corsOptions = {
+    origin: 'https://recruiter2candidate.vercel.app', // Replace this with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // If you need credentials (cookies, etc.)
+  };
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
   
 
 cloudinary.config({
