@@ -98,7 +98,7 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
         }
         else{
             if (!req.file) {
-                return res.status(400).json({ message: 'No file uploaded.' });
+                return res.status(400).json({ error: 'No file uploaded.' });
               }
     
             const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
