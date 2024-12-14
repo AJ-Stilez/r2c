@@ -194,6 +194,30 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
     }
 })
 
+app.post("/signIn", upload.single("none"), async (req, res) => {
+    try{
+        const { email } = req.body;
+        if(!email){
+            throw new Error("Email field needs to be filled");
+        }
+        const checkUser = await MyModel.findOne({
+            email: email,
+        });
+        console.log(email);
+        if(!checkUser){
+            throw new Error("User not found, please kindly sign up");
+        }
+        res.status(200).json({
+            message: checkUser,
+        });
+    }
+    catch(error){
+        res.status(400).json({
+            error: error.message,
+        });
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server started running on port ${port}`);
 })
