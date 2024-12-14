@@ -113,7 +113,7 @@ app.post("/upload", upload.single("logo"), async (req, res) => {
               
             if(error) res.json(error.message);
     
-            console.log({
+            res.status(200).json({
                 message: 'File uploaded successfully!',
                 file: req.file,  // Cloudinary file details
               });
