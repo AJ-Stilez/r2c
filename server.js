@@ -13,6 +13,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5353;
 const uri = process.env.URI;
+const saltRounds = 10;
 
 const corsOptions = {
     origin: '*', // Replace this with your frontend URL
@@ -140,7 +141,7 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
         // const hiring = ["New", "Year", "Eve"];
         // const title = ["He", "She", "They"];
         // const qualification = "Professional";
-        const saltRounds = 10;
+
         const { username, email, password, company, industry, size, introduction, hiring, title, qualification } = req.body;
 
         const checkEmail = await MyModel.findOne({
@@ -190,9 +191,9 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
 
 app.post("/signIn", upload.single("none"), async (req, res) => {
     try{
-        const { email } = req.body;
-        if(!email){
-            throw new Error("Email field needs to be filled");
+        const { email, password } = req.body;
+        if(!email || !password){
+            throw new Error("Email and password is required");
         }
         const checkUser = await MyModel.findOne({
             email: email,
@@ -201,9 +202,19 @@ app.post("/signIn", upload.single("none"), async (req, res) => {
         if(!checkUser){
             throw new Error("User not found, please kindly sign up");
         }
-        res.status(200).json({
-            message: checkUser,
-        });
+        
+        const hashedPassword = checkUser.password;
+        const validatePassword = await bcrypt.compare(password, hashedPassword);
+
+        if(!validatePassword){
+            throw new Error("Password is incorrect");
+        }
+        else{
+            res.status(200).json({
+                message: "Password valid",
+                user: checkUser,
+            });
+        }
     }
     catch(error){
         res.status(400).json({
