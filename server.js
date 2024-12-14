@@ -54,15 +54,15 @@ const mySchema = new mongoose.Schema({
 
 const MyModel = mongoose.model("tvc_database", mySchema);
 
-// const storage = multer.diskStorage({
+const storage = multer.diskStorage({
 //     // destination: (req, file, cb) => {
 //     //     cb(null, 'uploads/'); // specify upload folder
 //     //   },
-//     filename: (req, file, cb) => {
-//       cb(null, Date.now() + path.extname(file.originalname));
-//     }
-//   });
-const storage = multer.memoryStorage();
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    }
+  });
+// const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 app.get("/", (req, res) => {
@@ -142,7 +142,7 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
     
             const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
               
-                if(error) res.json(error.message);
+                // if(error) res.json(error.message);
     
                 console.log({
                     message: 'File uploaded successfully!',
@@ -156,23 +156,23 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
             console.log(hashedPassword);
     
             const response = await MyModel.create({
-                username: username,
-                email: email,
-                password: hashedPassword,
-                company: company,
-                industry: industry,
+                // username: username,
+                // email: email,
+                // password: hashedPassword,
+                // company: company,
+                // industry: industry,
                 logo: logoObject.url,
-                size: size,
-                introduction: introduction,
-                hiring: hiring,
-                title: title,
-                qualification: qualification,
+                // size: size,
+                // introduction: introduction,
+                // hiring: hiring,
+                // title: title,
+                // qualification: qualification,
             });
             res.json(response);
         }
     }
     catch(error){
-        res.json(error.message);
+        res.json(error);
     }
 })
 
