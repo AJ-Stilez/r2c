@@ -75,13 +75,10 @@ app.get("/checkCred", (req, res) => {
 
 app.post("/checkCred", upload.none(), async (req, res) => {
     try{
-        // console.log("Working");
         console.log(req.body);
         const { username, email } = req.body;
-        // const username = "AJSti]ez";
-        // const email =  "adenusijoseph0@gmail.com";
-        console.log(username);
-        console.log(email);
+        // console.log(username);
+        // console.log(email);
         if (!username || !email) {
             return res.status(400).json({
                 error: "Both username and email are required",
