@@ -80,6 +80,7 @@ app.post("/checkCred", upload.none(), async (req, res) => {
         // console.log(username);
         // console.log(email);
         if (!username || !email) {
+            console.log("this", username, email)
             return res.status(400).json({
                 error: "Both username and email are required",
             });
