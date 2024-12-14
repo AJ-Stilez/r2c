@@ -54,15 +54,14 @@ const mySchema = new mongoose.Schema({
 
 const MyModel = mongoose.model("tvc_database", mySchema);
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/'); // specify upload folder
-//       },
-//     filename: (req, file, cb) => {
-//       cb(null, Date.now() + path.extname(file.originalname));
-//     }
-//   });
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+    // destination: (req, file, cb) => {
+    //     cb(null, 'uploads/'); // specify upload folder
+    //   },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    }
+  });
    
 const upload = multer({storage: storage});
 
@@ -70,10 +69,50 @@ app.get("/", (req, res) => {
     res.send("API working fine");
 })
 
+app.get("/checkCred", (req, res) => {
+    res.send("Hey baby!!..");
+})
+
+app.post("/checkCred", async (req, res) => {
+    try{
+        // console.log("Working");
+        const {username, email } = req.body;
+        // const username = "AJStilez";
+        // const email =  "adenusijeph0@gmail.com";
+        // console.log(username);
+
+        if(username && email){
+            const checkUsername = await MyModel.findOne({
+                username: username,
+            });
+            const checkEmail = await MyModel.findOne({
+                email: email,
+            });
+            
+            if(checkUsername){
+                res.status(400).json({
+                    error: "Username is taken",
+                });
+            }
+            else if(checkEmail){
+                res.status(400).json({
+                    error: "Email has been used",
+                })
+            }
+            else{
+                res.status(200).json({message: "Success"});
+            }
+        }
+    }
+    catch(error){
+        res.status(400).json({error: error.message});
+    }
+})
+
 app.post("/signUp", upload.single("logo"), async (req, res) => {
     try{
-        // const username = "Test1";
-        // const email = "adenusijoseph5@gmail.com";
+        // const username = "Test2";
+        // const email = "adenusijoseph9@gmail.com";
         // const password = "HAHAHA";
         // const company = "TVC";
         // const industry = "HEY";
@@ -99,15 +138,12 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
         }
         else{
             if (!req.file) {
-                return res.status(400).json({ error: 'No file uploaded.' });
+                return res.status(400).json({ message: 'No file uploaded.' });
               }
     
-            const logoObject = await cloudinary.uploader.upload_stream({
-                resource_type: "auto",
-            }, 
-            (error, result) => {
+            const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
               
-                if(error) res.status(400).json(error.message);
+                if(error) res.json(error.message);
     
                 console.log({
                     message: 'File uploaded successfully!',
@@ -133,8 +169,6 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
                 title: title,
                 qualification: qualification,
             });
-            // console.log(re)
-            // res.send("Hello");
             res.json(response);
         }
     }
