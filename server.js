@@ -142,7 +142,7 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
     
             const logoObject = await cloudinary.uploader.upload(req.file.path, (error, result) => {
               
-                // if(error) res.json(error.message);
+                if(error) res.json(error.message);
     
                 console.log({
                     message: 'File uploaded successfully!',
@@ -156,17 +156,17 @@ app.post("/signUp", upload.single("logo"), async (req, res) => {
             console.log(hashedPassword);
     
             const response = await MyModel.create({
-                // username: username,
-                // email: email,
-                // password: hashedPassword,
-                // company: company,
-                // industry: industry,
+                username: username,
+                email: email,
+                password: hashedPassword,
+                company: company,
+                industry: industry,
                 logo: logoObject.url,
-                // size: size,
-                // introduction: introduction,
-                // hiring: hiring,
-                // title: title,
-                // qualification: qualification,
+                size: size,
+                introduction: introduction,
+                hiring: hiring,
+                title: title,
+                qualification: qualification,
             });
             res.json(response);
         }
