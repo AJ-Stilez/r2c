@@ -77,6 +77,23 @@ app.get("/", (req, res) => {
     res.send("API working fine");
 })
 
+app.get("/search", async (req, res) => {
+    try{
+        const users = await MyModel.find();
+        // const users = await MyModel.find({
+        //     qualification: "Degree",
+        // });
+        if(!users) throw new Error("User not found");
+        
+        res.status(200).json({ users });
+    }
+    catch(error){
+        res.status(400).json({
+            error: error.message,
+        })
+    }
+})
+
 app.get("/checkCred", (req, res) => {
     res.send("Hey baby!!..");
 })
@@ -202,7 +219,7 @@ app.post("/signIn", upload.single("none"), async (req, res) => {
         if(!checkUser){
             throw new Error("User not found, please kindly sign up");
         }
-        
+
         const hashedPassword = checkUser.password;
         const validatePassword = await bcrypt.compare(password, hashedPassword);
 
