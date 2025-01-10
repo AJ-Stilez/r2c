@@ -9,9 +9,10 @@ const app = express();
 const port = process.env.PORT || 5353;
 
 const corsOptions = {
-    origin: '*', // Replace this with your frontend URL
-    methods: '*',
-    allowedHeaders: ['Content-Type', 'Authorization'], 
+    origin: 'http://localhost:5174', // Your frontend URL (or a list of allowed URLs)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+    credentials: true,  
   };
 
 app.use(bodyParser.urlencoded({ extended: true }));
