@@ -17,7 +17,7 @@ const corsOptions = {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
   
 app.get("/", testAPI);
 
