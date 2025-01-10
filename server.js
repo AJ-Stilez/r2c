@@ -2,11 +2,21 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import upload from "./multar.js";
+import { candidateModel } from "./schema.js";
 import { checkRecCred, findRec, multarUpload, signInRec, signUpRec, testAPI } from "./rec_functions.js";
 import { findCan, signInCan, signUpCan } from "./can_functions.js";
 
 const app = express();
 const port = process.env.PORT || 5353;
+const CanModel = candidateModel;
+const saltRounds = 10;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.API_KEY, 
+    api_secret: process.env.API_SECRET, 
+  });
+
 
 const corsOptions = {
     origin: 'http://localhost:5174', // Your frontend URL (or a list of allowed URLs)
