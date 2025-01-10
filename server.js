@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 5353;
 
 const corsOptions = {
-    origin: 'locahost:5174', // Replace this with your frontend URL
+    origin: 'http://locahost:5174', // Replace this with your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: "*",
     credentials: true, // If you need credentials (cookies, etc.)
