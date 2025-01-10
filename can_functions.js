@@ -17,12 +17,14 @@ cloudinary.config({
 
 const signUpCan = async (req, res) => {
     try{
-        const { username, email, password, jobTitle, experience, skills, roles, qualifications, resume, jobLocation, workType, salary, availability } = req.body;
+        const { fullName, username, email, password, jobTitle, experience, skills, roles, qualifications, jobLocation, workType, salary, availability } = req.body;
 
         // check if candidate email exists in the database
         const checkEmail = await CanModel.findOne({
             email: email,
         });
+
+        console.log(req.file);
         
         // check if recruiter username exists in the database
         const checkUsername = await CanModel.findOne({
@@ -38,12 +40,12 @@ const signUpCan = async (req, res) => {
         else{
 
             // // // if there is no image file return error
-            if (!resume) {
+            if (!req.file) {
                 throw new Error('No file uploaded.');
                 }
                 
             //   if there is an image file, then upload it and return error if any
-            const savedResume = await cloudinary.uploader.upload(resume.path, (error, result) => {
+            const savedResume = await cloudinary.uploader.upload(req.file.path, (error, result) => {
                 
                 if(error) throw new Error(error.message);
             });
@@ -53,6 +55,7 @@ const signUpCan = async (req, res) => {
             
             // add candidate into the database
             const candidate = await CanModel.create({
+                fullName: fullName,
                 username: username,
                 email: email,
                 password: hashedPassword,
