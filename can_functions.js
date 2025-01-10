@@ -56,7 +56,7 @@ const signUpCan = async (req, res) => {
                 username: username,
                 email: email,
                 password: hashedPassword,
-                jobTitle: job,
+                jobTitle: jobTitle,
                 experience: experience,
                 skills: skills,
                 roles: roles,
