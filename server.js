@@ -9,14 +9,14 @@ const app = express();
 const port = process.env.PORT || 5353;
 
 const corsOptions = {
-    origin: 'http://localhost:5174', // Replace this with your frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Access-Control-Allow-Origin','Content-Type', 'Authorization'], 
+    origin: '*', // Replace this with your frontend URL
+    methods: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'], 
   };
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
   
 app.get("/", testAPI);
 
