@@ -18,6 +18,14 @@ const corsOptions = {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors(corsOptions));
+app.options('*', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:5174');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.set('Access-Control-Allow-Credentials', 'true');
+    res.send();
+  });
+  
   
 app.get("/", testAPI);
 
@@ -40,15 +48,6 @@ app.post("/signUpCan", upload.single("resume"), signUpCan);
 app.post("/signInRec", upload.single("none"), signInRec);
 
 app.post("/signInCan", upload.single("none"), signInCan);
-
-app.options('*', (req, res) => {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:5174');
-    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.set('Access-Control-Allow-Credentials', 'true');
-    res.send();
-  });
-  
 
 app.listen(port, () => {
     console.log(`Server started running on port ${port}`);
