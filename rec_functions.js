@@ -104,7 +104,7 @@ const signUpRec =  async (req, res) => {
             // hash password
             const hashedPassword = await bcrypt.hash(password, saltRounds);    
             
-            // add user into the database
+            // add recruiter into the database
             const recruiter = await RecModel.create({
                 username: username,
                 email: email,

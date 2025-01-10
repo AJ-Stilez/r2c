@@ -17,7 +17,7 @@ cloudinary.config({
 
 const signUpCan = async (req, res) => {
     try{
-        const { username, email, password, jobTitle, experience, skills, roles, resume, qualifications, jobLocation, workType, salary, availability } = req.body;
+        const { username, email, password, jobTitle, experience, skills, roles, qualifications, jobLocation, workType, salary, availability } = req.body;
 
         // check if candidate email exists in the database
         const checkEmail = await CanModel.findOne({
@@ -51,7 +51,7 @@ const signUpCan = async (req, res) => {
             // hash password
             const hashedPassword = await bcrypt.hash(password, saltRounds);    
             
-            // add user into the database
+            // add candidate into the database
             const candidate = await CanModel.create({
                 username: username,
                 email: email,
