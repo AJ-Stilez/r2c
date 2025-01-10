@@ -43,7 +43,7 @@ app.post("/upload", upload.single("logo"), multarUpload);
 
 app.post("/signUpRec", upload.single("logo"), signUpRec);
 
-app.post("/signUpCan", signUpCan);
+app.post("/signUpCan", upload.single("resume"), signUpCan);
 
 app.post("/signInRec", upload.single("none"), signInRec);
 
