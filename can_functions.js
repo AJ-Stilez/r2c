@@ -19,10 +19,13 @@ const signUpCan = async (req, res) => {
     try{
         const { fullName, username, email, resume, password, jobTitle, experience, skills, roles, qualifications, jobLocation, workType, salary, availability } = req.body;
 
+        console.log(resume);
         // check if candidate email exists in the database
         const checkEmail = await CanModel.findOne({
             email: email,
-        });     
+        });    
+        
+        console.log(resume);
         
         // check if recruiter username exists in the database
         const checkUsername = await CanModel.findOne({
@@ -37,7 +40,7 @@ const signUpCan = async (req, res) => {
         // if email or username does not exists in the database 
         else{
 
-            // // // if there is no image file return error
+            // if there is no image file return error
             if (!resume) {
                 throw new Error('No file uploaded.');
                 };
