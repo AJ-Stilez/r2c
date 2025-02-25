@@ -22,9 +22,7 @@ const signUpCan = async (req, res) => {
         // check if candidate email exists in the database
         const checkEmail = await CanModel.findOne({
             email: email,
-        });
-
-        console.log(req.file);
+        });     
         
         // check if recruiter username exists in the database
         const checkUsername = await CanModel.findOne({
