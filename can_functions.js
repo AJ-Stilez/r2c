@@ -38,15 +38,9 @@ const signUpCan = async (req, res) => {
         else{
 
             // // // if there is no image file return error
-            if (!req.file) {
+            if (!resume) {
                 throw new Error('No file uploaded.');
-                }
-                
-            //   if there is an image file, then upload it and return error if any
-            const savedResume = await cloudinary.uploader.upload(req.file.path, (error, result) => {
-                
-                if(error) throw new Error(error.message);
-            });
+                };
 
             // hash password
             const hashedPassword = await bcrypt.hash(password, saltRounds);    
