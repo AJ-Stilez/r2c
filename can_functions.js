@@ -59,7 +59,7 @@ const signUpCan = async (req, res) => {
                 experience: experience,
                 skills: skills,
                 roles: roles,
-                resume: savedResume.url,
+                resume: resume,
                 qualifications: qualifications,
                 jobLocation: jobLocation,
                 workType: workType,
