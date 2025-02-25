@@ -195,13 +195,14 @@ const findRec = async (req, res) => {
 const multarUpload = async (req, res) => {
     try{
         // try uploading the image file
-        await cloudinary.uploader.upload(req.file.path, (error, result) => {
+       const image = await cloudinary.uploader.upload(req.file.path, (error, result) => {
               
             if(error) throw new Error(error.message);
     
             res.status(200).json({
                 message: 'File uploaded successfully!',
-                file: req.file,  // Cloudinary file details
+                file: req.file,
+                imageLink: image.url,  // Cloudinary file details
               });
         });
     }
